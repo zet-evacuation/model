@@ -236,10 +236,52 @@
   
   <!--
   ==================================================
-  Ivy setup
+  Groovy setup
   ==================================================
   -->
 
+  <target name="init-groovy" depends="resolve" description="Initialize groovy.">
+    <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="dist.path"/>
+  </target>
+  
+  <target name="build.test.groovy" depends="init-groovy,init.test" description="Compiles groovy test classes">
+    <groovyc srcdir="${test.src.dir}" destdir="${test.build.dir}/classes">
+      <classpath>
+        <path refid="core.path"/>
+        <path refid="test.path"/>
+        <pathelement path="${classes.dir}"/>
+        <pathelement path="${classpath}"/>
+      </classpath>
+    </groovyc>
+  </target>
+
+  <target name="test.groovy" depends="build.test.groovy">
+    <junit printsummary="yes" haltonfailure="no" showoutput="true">
+      <classpath>
+        <path refid="dist.path"/>
+        <path refid="test.path"/>
+        <path refid="core.path"/>
+        <pathelement path="${classes.dir}"/>
+        <pathelement path="${classpath}"/>                    
+        <pathelement path="${test.build.dir}/classes"/>
+      </classpath>
+      <formatter type="xml"/>
+      <batchtest todir="${test.reports.dir}">
+        <fileset dir="${test.build.dir}/classes">
+          <include name="**/*Test*"/>
+          <!-- a '$' in the filename means it's an inner class -->
+          <exclude name="**/*$*"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+  
+  <!--
+  ==================================================
+  Ivy setup
+  ==================================================
+  -->
+    
   <target name="download-ivy" unless="offline" description="Download the ivy jar file.">
     <mkdir dir="${ivy.jar.dir}"/>
     <!-- download Ivy from web site so that it can be used even without any special installation -->
@@ -262,11 +304,12 @@
     <ivy:cachepath pathid="dist.path" conf="dist"/>
   </target>
 
-  <target name="jacoco" depends="resolve,build.test" description="Run unit tests and Jacoco code coverage reporting">
+  <target name="jacoco" depends="resolve,build.test,build.test.groovy" description="Run unit tests and Jacoco code coverage reporting">
     <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml" classpathref="test.path"/>
       <jacoco:coverage destfile="${reports.dir}/jacoco.exec" xmlns:jacoco="antlib:org.jacoco.ant">
         <junit haltonfailure="no" fork="true">
           <classpath>
+            <path refid="dist.path"/>
             <path refid="test.path"/>
             <path refid="core.path"/>
             <pathelement path="${classes.dir}"/>
@@ -276,10 +319,15 @@
           <formatter type="plain" usefile="false" />
           <formatter type="xml"/>
           <batchtest fork="yes" todir="${reports.dir}/junit-xml">
-            <fileset dir="${test.src.dir}">
+    <fileset dir="${test.build.dir}/classes">
+      <include name="**/*Test*"/>
+      <!-- a '$' in the filename means it's an inner class -->
+      <exclude name="**/*$*"/>
+    </fileset>
+<!--            <fileset dir="${test.src.dir}">
                 <include name="**/*Test*.java"/>
                 <exclude name="**/AllTests.java"/>
-            </fileset>
+            </fileset>-->
           </batchtest>
         </junit>
       </jacoco:coverage>

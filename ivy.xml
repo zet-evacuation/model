@@ -22,6 +22,9 @@
     <!-- core dependencies -->
     <dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.7" conf="core->default"/>
 
+    <!-- dist dependencies -->
+    <dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.3" conf="dist->default"/>
+
     <!-- Global exclusions -->
     <exclude org="org.apache.ant"/>
 
