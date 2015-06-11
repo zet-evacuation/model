@@ -19,6 +19,7 @@ import org.zetool.common.datastructure.Tuple;
 import de.zet_evakuierung.model.PlanPoint;
 import de.zet_evakuierung.model.Room;
 import java.io.IOException;
+import org.zetool.common.datastructure.SimpleTuple;
 
 /**
  * The {@code RoomInterstException} indicates that two rooms in one {@link de.zet_evakuierung.model.Floor} intersect
@@ -35,11 +36,11 @@ public class RoomIntersectException extends ValidationException {
 	 * @param room2 the second room
 	 */
 	public RoomIntersectException( Room room1, Room room2 ) {
-		super( new Tuple<>( room1, room2 ) );
+		super( new SimpleTuple<>( room1, room2 ) );
 	}
 
 	public RoomIntersectException( Room room1, Room room2, PlanPoint point ) {
-		super( new Tuple<>( room1, room2 ) );
+		super( new SimpleTuple<>( room1, room2 ) );
 		this.point = point;
 	}
 
@@ -51,7 +52,7 @@ public class RoomIntersectException extends ValidationException {
 	 * @param s a message further describing the exception
 	 */
 	public RoomIntersectException( Room room1, Room room2, String s ) {
-		super( new Tuple<>( room1, room2 ), s );
+		super( new SimpleTuple<>( room1, room2 ), s );
 	}
 
 	/**
