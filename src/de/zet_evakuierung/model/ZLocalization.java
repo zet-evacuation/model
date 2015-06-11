@@ -9,7 +9,7 @@ import org.zetool.common.localization.LocalizationManager;
  */
 public class ZLocalization {
 
-	public final static String ZET_LOCALIZATION = "de.tu_berlin.coga.zet.model.ZLocalization";
+	public final static String ZET_LOCALIZATION = "de.zet_evakuierung.model.ZLocalization";
 	public final static Localization loc = LocalizationManager.getManager().getLocalization( ZLocalization.ZET_LOCALIZATION );
 	
 	private ZLocalization()  { }
