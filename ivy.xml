@@ -14,6 +14,7 @@
     <dependency org="org.jacoco" name="org.jacoco.ant" rev="0.7.4.201502262128" conf="test->default"/>
     <!--<dependency org="org.jmock" name="jmock" rev="2.8.1" conf="test->default"/>-->
     <!--<dependency org="org.jmock" name="jmock-junit4" rev="2.8.1" conf="test->default"/>-->
+    <dependency org="org.spockframework" name="spock-core" rev="1.0-groovy-2.4" conf="test->default"/>
     
     <!--<dependency org="org.codehaus.sonar-plugins" name="sonar-ant-task" rev="2.1" conf="build->default"/>-->
     <!--<dependency org="net.sourceforge.cobertura" name="cobertura" rev="2.1.1" conf="cob->default"/>-->
@@ -23,7 +24,7 @@
     <dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.8" conf="core->default"/>
 
     <!-- dist dependencies -->
-    <dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.3" conf="dist->default"/>
+    <dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.1" conf="dist->default"/>
 
     <!-- Global exclusions -->
     <exclude org="org.apache.ant"/>
