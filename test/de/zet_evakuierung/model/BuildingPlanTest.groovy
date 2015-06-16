@@ -7,18 +7,19 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test
+import spock.lang.Specification
 
 /**
  *
  * @author Jan-Philipp Kappmeier
  */
-class TestBuildingPlan {
+class TestBuildingPlanTest extends Specification {
+  def bp = new BuildingPlan()
 
-  @Test
-  void simpleTest() {
-    def bp = new BuildingPlan()
-    assertTrue bp.getDefaultFloor() != null
-    assertThat bp.getFloors().size(), is(equalTo(1))
+  def "contains default floor"() {
+    expect:
+    bp.getDefaultFloor() != null
+    bp.getFloors().size() == 1
   }
   
 }

@@ -160,6 +160,10 @@ public class DefaultEvacuationFloor extends Floor {
 		int rooms = this.getRooms().size();
 		return base + " " + rooms;
 	}
+  
+  public int getDefaultRoomSize() {
+    return defaultRoomSize;
+  }
 
 	/**
 	 * Sets the default size for new rooms. In normal mode all new rooms will have exactly the
@@ -176,6 +180,10 @@ public class DefaultEvacuationFloor extends Floor {
 			throw new java.lang.IllegalArgumentException( ZLocalization.loc.getString( "ds.z.DefaultEvacuationFloor.DefaultRoomSizeDecreasedException" ) );
 		defaultRoomSize = size;
 	}
+  
+  public int getRasterSize() {
+    return rasterSize;
+  }
 
 	/**
 	 * Sets the raster size to the specified value. The rooms already created are not aligned to
