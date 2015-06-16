@@ -34,6 +34,16 @@ class DefaultFloorInitializationTest extends Specification {
     defaultFloor.getDefaultRoomSize() % defaultFloor.getRasterSize() == 0
   }
   
+  def "change raster size"() {
+    def oldDefaultSize = defaultFloor.defaultRoomSize
+    when:
+    def newDefaultSize = ((oldDefaultSize.intdiv(defaultFloor.getRasterSize())) + 1) * defaultFloor.getRasterSize()
+    defaultFloor.setDefaultRoomSize( newDefaultSize )
+    then:
+    newDefaultSize > oldDefaultSize
+    defaultFloor.getDefaultRoomSize() == newDefaultSize
+  }
+  
   def "raster size not decreasing"() {
     expect:
     defaultFloor.defaultRoomSize > 1
@@ -43,6 +53,24 @@ class DefaultFloorInitializationTest extends Specification {
     then:
     thrown( IllegalArgumentException )
     defaultFloor.getDefaultRoomSize() == oldDefaultValue
+  }
+  
+  def "switching to simple mode"() {
+    expect:
+    defaultFloor.normalMode == true
+    when:
+    defaultFloor.setSimpleMode(true)
+    then:
+    defaultFloor.normalMode == false
+  }
+  
+  def "no switching back to normal mode"() {
+    when:
+    defaultFloor.setSimpleMode(true)
+    defaultFloor.setSimpleMode(false)
+    then:
+    thrown(UnsupportedOperationException)
+    defaultFloor.normalMode == false
   }
   
 }
