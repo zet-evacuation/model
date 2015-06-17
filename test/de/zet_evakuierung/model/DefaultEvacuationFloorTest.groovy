@@ -114,7 +114,7 @@ class NewExitsTest extends Specification {
   
   def "adding a room by edge increases size"() {
     setup:
-    initEdge( orientationHorizontal )
+    initAxisAlignedEdge( orientationHorizontal )
     when:
     defaultFloor.addEvacuationRoom( testEdge )
     then:
@@ -128,7 +128,7 @@ class NewExitsTest extends Specification {
    * initializes source, target points and associated room.
    * @param horizontal whether the edge shall be horizontal or vertical
    */
-  def initAxisAlignedEdge( boolean horizontal ) {
+  def initAxisAlignedEdge( horizontal ) {
     if( horizontal ) {
       testEdge.isHorizontal() >> true
       testEdge.getSource() >> new PlanPoint(0, 0)
