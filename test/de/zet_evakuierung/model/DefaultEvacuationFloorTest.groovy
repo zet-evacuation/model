@@ -21,11 +21,13 @@ class DefaultFloorInitializationTest extends Specification {
     defaultFloor = new DefaultEvacuationFloor("TestFloorName")
     expect:
     defaultFloor.getName().equals( "TestFloorName" )
+    defaultFloor.roomCount() == 0
   }
   
   def "raster size not negative"() {
     expect:
     defaultFloor.getRasterSize() > 0
+    defaultFloor.roomCount() == 0
   }
   
   def "default room size not negative and multiple of raster size"() {
@@ -73,4 +75,22 @@ class DefaultFloorInitializationTest extends Specification {
     defaultFloor.normalMode == false
   }
   
+}
+
+class NewExitsTest extends Specification {
+  def testEdge = Mock(RoomEdgeInterface)
+  def edgesRoom = Mock(Room)
+  
+  def "adding a room by edge increases size"() {
+    setup:
+    
+    testEdge.isHorizontal() >> true
+    testEdge.getRoom() >> edgesRoom
+    edgesRoom.getAssociatedFloor() >> Mock(AbstractFloor)
+    def defaultFloor = new DefaultEvacuationFloor()
+    when:
+    defaultFloor.addEvacuationRoom( testEdge )
+    then:
+    defaultFloor.roomCount() == 1
+  }
 }

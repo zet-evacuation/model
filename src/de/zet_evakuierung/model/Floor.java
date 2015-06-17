@@ -47,7 +47,7 @@ import java.util.List;
  */
 @XStreamAlias( "floor" )
 @XMLConverter( FloorConverter.class )
-public class Floor implements Serializable, Cloneable, Iterable<Room>, AbstractFloor {
+public class Floor implements Serializable, Cloneable, AbstractFloor {
 	/** The name of the floor. */
 	@XStreamAsAttribute()
 	private String name;

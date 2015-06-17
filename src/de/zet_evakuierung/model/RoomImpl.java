@@ -718,7 +718,7 @@ public class RoomImpl extends PlanPolygon<RoomEdge> implements Cloneable, Compar
  polygon is not closed, an IllegalArgumentException may be thrown because
  the deletion of a RoomEdgeAA (source/linkTarget) may fail.
 	 */
-	public static void connectToWithTeleportEdge( RoomEdge sourceEdge, RoomEdge targetEdge ) throws IllegalArgumentException {
+	public static void connectToWithTeleportEdge( RoomEdgeInterface sourceEdge, RoomEdge targetEdge ) throws IllegalArgumentException {
 	   if( sourceEdge.isPassable() || targetEdge.isPassable() ) {
       throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.PassableException" ) );
     }

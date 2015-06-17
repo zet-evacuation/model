@@ -78,7 +78,7 @@ public class DefaultEvacuationFloor extends Floor {
    *
    * @param sourceEdge the edge that should be made to a {@link TeleportEdge}
    */
-  public void addEvacuationRoom( RoomEdge sourceEdge ) {
+  public void addEvacuationRoom( RoomEdgeInterface sourceEdge ) {
     if( sourceEdge.length() > defaultRoomSize ) {
       throw new java.lang.IllegalArgumentException( ZLocalization.loc.getString( "ds.z.DefaultEvacuationFloor.EdgeToLongException" ) );
     }

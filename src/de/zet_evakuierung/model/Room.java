@@ -27,7 +27,7 @@ public interface Room {
 	 * Returns the floor associated with this room.
 	 * @return the associated floor of this room
 	 */
-	public Floor getAssociatedFloor();
+	public AbstractFloor getAssociatedFloor();
 
 	/**
 	 * Returns a view of all barriers.

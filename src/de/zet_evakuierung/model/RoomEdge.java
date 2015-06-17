@@ -50,7 +50,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  */
 @XStreamAlias("roomEdge")
 @SuppressWarnings("serial")
-public class RoomEdge extends PlanEdge {
+public class RoomEdge extends PlanEdge implements RoomEdgeInterface {
 
 	/**
 	 * * When this flag is turned {@code true} the RoomEdgeA will only accept
@@ -93,6 +93,7 @@ public class RoomEdge extends PlanEdge {
 	 *
 	 * @return true if the edge is connected to two different rooms
 	 */
+  @Override
 	public boolean isPassable() {
 		return getLinkTarget() != null;
 	}
@@ -102,6 +103,7 @@ public class RoomEdge extends PlanEdge {
 	 *
 	 * @return the room
 	 */
+  @Override
 	public Room getRoom() {
 		return (Room) getAssociatedPolygon();
 	}
