@@ -273,7 +273,7 @@ public class PlanEdge implements Serializable {
 	 * @return the associated polygon.
 	 */
 	public PlanPolygon getAssociatedPolygon() {
-		return associatedPolygon;
+		return (PlanPolygon)associatedPolygon;
 	}
 
 	/**

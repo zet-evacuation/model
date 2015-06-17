@@ -103,7 +103,7 @@ public class DefaultEvacuationFloor extends Floor {
       yPos = index * index - roomCount;
     }
 
-		// Create new room
+    // Create new room
     // Each room has width/height roomSize and space between is one raster
     // if edge is to long, we need to augmentate the defaultRoomSize
     while( sourceEdge.length() > defaultRoomSize / 2 ) {
@@ -123,16 +123,16 @@ public class DefaultEvacuationFloor extends Floor {
     points.add( ul );
     points.add( ur );
     if( sourceEdge.isHorizontal() ) {
-      points.add( lr );			// Lower right point
+      points.add( lr ); // Lower right point
       // let the door start at a quarter, its maximal length is defaultRoomSize/2
-      p1 = new PlanPoint( roomX + w1 + sourceEdge.length(), roomY + defaultRoomSize );			// Right point of the door
+      p1 = new PlanPoint( roomX + w1 + sourceEdge.length(), roomY + defaultRoomSize ); // Right point of the door
       points.add( p1 );
-      p2 = new PlanPoint( roomX + w1, roomY + defaultRoomSize );														// Left point of the door
+      p2 = new PlanPoint( roomX + w1, roomY + defaultRoomSize ); // Left point of the door
       points.add( p2 );
     } else {
-      p1 = new PlanPoint( roomX + defaultRoomSize, roomY + w1 );														// Upper point of the door
+      p1 = new PlanPoint( roomX + defaultRoomSize, roomY + w1 ); // Upper point of the door
       points.add( p1 );
-      p2 = new PlanPoint( roomX + defaultRoomSize, roomY + w1 + sourceEdge.length() );			// Lower point of the door
+      p2 = new PlanPoint( roomX + defaultRoomSize, roomY + w1 + sourceEdge.length() ); // Lower point of the door
       points.add( p2 );
       points.add( lr );
     }

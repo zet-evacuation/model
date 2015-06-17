@@ -97,7 +97,9 @@ public class TeleportEdge extends RoomEdge {
 			if( !(val instanceof TeleportEdge) ) {
 				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.TeleportEdge.OnlyTeleportEdgesAsTarget" ) );
 			} else if( val.length() != length() ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.TeleportEdge.DifferentLengthLinkTarget" ) );
+				throw new IllegalArgumentException(
+                ZLocalization.loc.getString( "ds.z.TeleportEdge.DifferentLengthLinkTarget" )
+        + ": " + val.length() + " != " + length() );
 			}
 		}
 		super.setLinkTarget( val );
@@ -127,6 +129,6 @@ public class TeleportEdge extends RoomEdge {
 		Room myRoom = getRoom();
 
 		delete(); // Replaces the edge at the link target
-		myRoom.getPolygon().close();
+		((PlanPolygon<RoomEdge>)myRoom.getPolygon()).close();
 	}
 }

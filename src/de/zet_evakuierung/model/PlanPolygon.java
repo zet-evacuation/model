@@ -24,6 +24,7 @@ import org.zetool.math.matrix.Matrix;
 import de.zet_evakuierung.model.exception.PolygonNotClosedException;
 import de.zet_evakuierung.model.exception.PolygonNotRasterizedException;
 import de.zet_evakuierung.io.z.CompactEdgeListConverter;
+import de.zet_evakuierung.util.ConversionTools;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
@@ -32,7 +33,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import de.zet_evakuierung.util.ConversionTools;
 
 /**
  * The generic {@literal PlanPolygon} class implements a polygonal area
@@ -1557,7 +1557,7 @@ public class PlanPolygon<T extends PlanEdge> /*implements Iterable<T>*/ {
 	 * @throws java.lang.IllegalStateException if the edge is not the first or last
 	 * edge in the polygon. first and last edges also occur in closed polygons.
 	 */
-	void removeEdge( T e ) throws IllegalArgumentException, IllegalStateException {
+	public void removeEdge( T e ) throws IllegalArgumentException, IllegalStateException {
 		PlanEdge prev = e.getSource().getPreviousEdge();
 		PlanEdge next = e.getTarget().getNextEdge();
 		int length = e.length();

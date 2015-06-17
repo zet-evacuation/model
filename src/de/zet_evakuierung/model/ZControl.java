@@ -394,7 +394,7 @@ public class ZControl {
 		for( Area a : areas ) {
 			for( PlanPoint p : ((AreaImpl)a).getPlanPoints() ) {
 				PlanPoint check = new PlanPoint( p.x + x, p.y + y );
-				if( !target.getPolygon().contains( check ) )
+				if( !((PlanPolygon<RoomEdge>)target.getPolygon()).contains( check ) )
 					return; // illegal!
 			}
 		}
@@ -595,7 +595,7 @@ public class ZControl {
     for( Floor floor : project.getBuildingPlan() ) {
       for( Room room : floor ) {
         boolean printed = false;
-        for( RoomEdge ed : in( room.getPolygon().edgeIterator() ) ) {
+        for( RoomEdge ed : in( ((PlanPolygon<RoomEdge>)room.getPolygon()).edgeIterator() ) ) {
           if( check( ed ) != 0 ) {
             if( !printed ) {
               System.out.println( "Correct " + room.getName() );
@@ -770,7 +770,7 @@ public class ZControl {
 		Room target = null;
 		for( Room r : anchorRoom.getAssociatedFloor().getRooms() ) {
 			if( !r.equals( anchorRoom ) )
-				partner = r.getPolygon().getEdge( newPoint );
+				partner = ((PlanPolygon<RoomEdge>)r.getPolygon()).getEdge( newPoint );
 			if( partner != null ) {
 				target = r;
 				break;
@@ -796,8 +796,8 @@ public class ZControl {
 
 		}
 
-		RoomEdge door1 = anchorRoom.getPolygon().getEdge( p1, p2 );
-		RoomEdge door2 = target.getPolygon().getEdge( p1, p2 );
+		RoomEdge door1 = ((PlanPolygon<RoomEdge>)anchorRoom.getPolygon()).getEdge( p1, p2 );
+		RoomEdge door2 = ((PlanPolygon<RoomEdge>)target.getPolygon()).getEdge( p1, p2 );
 
 
 		if( door1 != null ) {
@@ -823,7 +823,7 @@ public class ZControl {
 		ArrayList<PlanEdge> newEdges = insertPoint( edge, p1 );
 
 		insertPoint( newEdges.get( 1 ), p2 ); // has to be point 1, due to internal implementation of replaceEdges in PlanPolygon.java
-		RoomEdge door1 = anchorRoom.getPolygon().getEdge( p1, p2 );
+		RoomEdge door1 = ((PlanPolygon<RoomEdge>)anchorRoom.getPolygon()).getEdge( p1, p2 );
 
 		getProject().getBuildingPlan().getDefaultFloor().addEvacuationRoom( door1 );
 	}

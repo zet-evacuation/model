@@ -1,3 +1,18 @@
+/* zet evacuation tool copyright (c) 2007-15 zet evacuation team
+ *
+ * This program is free software; you can redistribute it and/or
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 
 package de.zet_evakuierung.model
 
@@ -8,6 +23,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test
 import spock.lang.Specification
+import org.zetool.math.geom.Polygon
 
 /**
  *
@@ -80,13 +96,19 @@ class DefaultFloorInitializationTest extends Specification {
 class NewExitsTest extends Specification {
   def testEdge = Mock(RoomEdgeInterface)
   def edgesRoom = Mock(Room)
-  
+    
   def "adding a room by edge increases size"() {
     setup:
     
     testEdge.isHorizontal() >> true
     testEdge.getRoom() >> edgesRoom
+    testEdge.getSource() >> new PlanPoint(0,0)
+    testEdge.getTarget() >> new PlanPoint(3000,0)
     edgesRoom.getAssociatedFloor() >> Mock(AbstractFloor)
+    def p = new PlanPolygon(RoomEdge.class)
+    
+    
+    edgesRoom.getPolygon() >> new RoomImpl( new Floor() )
     def defaultFloor = new DefaultEvacuationFloor()
     when:
     defaultFloor.addEvacuationRoom( testEdge )
