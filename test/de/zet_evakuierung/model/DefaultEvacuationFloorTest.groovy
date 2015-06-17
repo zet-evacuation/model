@@ -23,7 +23,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test
 import spock.lang.Specification
-import org.zetool.math.geom.Polygon
 
 /**
  *
@@ -96,23 +95,50 @@ class DefaultFloorInitializationTest extends Specification {
 class NewExitsTest extends Specification {
   def testEdge = Mock(RoomEdgeInterface)
   def edgesRoom = Mock(Room)
-    
+  def defaultFloor = new DefaultEvacuationFloor()   
+
+  def setup() {
+    edgesRoom.getAssociatedFloor() >> Mock(AbstractFloor)
+    edgesRoom.getPolygon() >> new RoomImpl( new Floor() )
+  }
+  
+  def "only horizontal/parallel adding allowed"() {
+    setup:
+    when:
+    defaultFloor.addEvacuationRoom( testEdge )
+    then:
+    thrown(IllegalArgumentException)
+    and:
+    defaultFloor.roomCount() == 0
+  }
+  
   def "adding a room by edge increases size"() {
     setup:
-    
-    testEdge.isHorizontal() >> true
-    testEdge.getRoom() >> edgesRoom
-    testEdge.getSource() >> new PlanPoint(0,0)
-    testEdge.getTarget() >> new PlanPoint(3000,0)
-    edgesRoom.getAssociatedFloor() >> Mock(AbstractFloor)
-    def p = new PlanPolygon(RoomEdge.class)
-    
-    
-    edgesRoom.getPolygon() >> new RoomImpl( new Floor() )
-    def defaultFloor = new DefaultEvacuationFloor()
+    initEdge( orientationHorizontal )
     when:
     defaultFloor.addEvacuationRoom( testEdge )
     then:
     defaultFloor.roomCount() == 1
+    where:
+    orientationHorizontal << [true, false]
+  }
+
+  /**
+   * Initializes the test edge as either horizontal or vertical and
+   * initializes source, target points and associated room.
+   * @param horizontal whether the edge shall be horizontal or vertical
+   */
+  def initAxisAlignedEdge( boolean horizontal ) {
+    if( horizontal ) {
+      testEdge.isHorizontal() >> true
+      testEdge.getSource() >> new PlanPoint(0, 0)
+      testEdge.getTarget() >> new PlanPoint(3000, 0)
+    } else {
+      testEdge.isVertical() >> true
+      testEdge.getSource() >> new PlanPoint(0, 0)
+      testEdge.getTarget() >> new PlanPoint(0, 1000)    
+    }
+    testEdge.getRoom() >> edgesRoom
+    return testEdge
   }
 }
