@@ -42,7 +42,7 @@ import java.util.Random;
  */
 @XStreamAlias("buildingPlan")
 @XMLConverter(BuildingPlanConverter.class)
-public class BuildingPlan implements Serializable, Iterable<Floor> {
+public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 	/** A list of all floors of the plan. */
 	@XStreamImplicit()
 	private ArrayList<Floor> floors;
@@ -77,7 +77,7 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	 * @param floor the selected floor whose index should be computed
 	 * @return the id of the selected floor
 	 */
-	public int getFloorID( Floor floor ) {
+	public int getFloorID( AbstractFloor floor ) {
 		return floors.indexOf( floor );
 	}
 
@@ -163,7 +163,7 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	 * Returns view of all {@code Floors} that this {@code BuildingPlan} contains.
 	 * @return the list of {@link Floor} objects (including the default floor)
 	 */
-	public List<Floor> getFloors() {
+	public List<AbstractFloor> getFloors() {
 		return Collections.unmodifiableList( floors );
 	}
 
@@ -177,7 +177,7 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 
 	/** @return If the plan has any rooms at all, e.g. if it is empty or not. */
 	public boolean isEmpty() {
-		for( Floor f : getFloors() )
+		for( AbstractFloor f : getFloors() )
 			if( f.getRooms().size() > 0 )
 				return false;
 		return true;
@@ -186,7 +186,7 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	/** @return If the plan has any evacuation areas at all. */
 	public boolean hasEvacuationAreas() {
 		boolean hasEvac = false;
-		for( Floor f : getFloors() ) {
+		for( AbstractFloor f : getFloors() ) {
 			for( Room r : f.getRooms() )
 				if( r.getEvacuationAreas().size() > 0 ) {
 					hasEvac = true;
@@ -204,10 +204,14 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	 * {@link DefaultEvacuationFloor} cannot be removed. If the floor is the first
 	 * (and only one), the floor is deleted and a new empty floor is added again
 	 * as the first one.
-	 * @param f the floor to be removed
+	 * @param floor the floor to be removed
 	 * @throws java.lang.IllegalArgumentException if the default floor should be removed.
 	 */
-	public void removeFloor( Floor f ) throws java.lang.IllegalArgumentException {
+	public void removeFloor( AbstractFloor floor ) throws java.lang.IllegalArgumentException {
+    if( !(floor instanceof Floor ) ) {
+      throw new IllegalStateException("Illegal floor!");
+    }
+    Floor f = (Floor)floor;
 		if( f.equals( floors.get( 0 ) ) )
 			throw new java.lang.IllegalArgumentException( ZLocalization.loc.getString( "ds.z.BuildingPlan.DeleteDefaultEvacuationFloorException" ) );
 		else if( floors.size() == 2 ) {
@@ -373,7 +377,7 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	 * @return an iterator over the floors of this building plan.
 	 */
 	@Override
-	public Iterator<Floor> iterator() {
+	public Iterator<AbstractFloor> iterator() {
 		return getFloors().iterator();
 	}
 

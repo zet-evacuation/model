@@ -10,4 +10,5 @@ import java.util.List;
 public interface AbstractFloor extends Iterable<Room> {
 	public List<Room> getRooms();
 	public String getName();
+  public int roomCount();
 }

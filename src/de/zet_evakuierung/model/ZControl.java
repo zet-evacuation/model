@@ -150,7 +150,7 @@ public class ZControl {
 		throw new AssertionError( "Unknown parameter type." );
 	}
 
-	public boolean deleteFloor( Floor currentFloor ) {
+	public boolean deleteFloor( AbstractFloor currentFloor ) {
 		if( currentFloor instanceof DefaultEvacuationFloor )
 			return false;
 		getProject().getBuildingPlan().removeFloor( currentFloor );
@@ -592,7 +592,7 @@ public class ZControl {
   }
 
   public void autoCorrectEdges() {
-    for( Floor floor : project.getBuildingPlan() ) {
+    for( AbstractFloor floor : project.getBuildingPlan() ) {
       for( Room room : floor ) {
         boolean printed = false;
         for( RoomEdge ed : in( ((PlanPolygon<RoomEdge>)room.getPolygon()).edgeIterator() ) ) {
@@ -647,7 +647,7 @@ public class ZControl {
 		// try to find out if the name is already used
 		if( floor.getName().equals( name ) )
 			return true;
-		for( Floor f : project.getBuildingPlan() )
+		for( AbstractFloor f : project.getBuildingPlan() )
 			if( f.getName().equals( name ) )
 				return false;
 		floor.setName( name );
