@@ -21,11 +21,11 @@ import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
 import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.mapper.Mapper;
+import de.zet_evakuierung.model.AbstractFloor;
 
 import de.zet_evakuierung.model.Project;
 import de.zet_evakuierung.model.VisualProperties;
 import de.zet_evakuierung.model.Assignment;
-import de.zet_evakuierung.model.Floor;
 import de.zet_evakuierung.model.Room;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -67,7 +67,7 @@ public class ProjectConverter extends ReflectionConverter {
 
 		// Set correct value for targetAreas
 		boolean teleportArea = false;
-		for( Floor f : result.getBuildingPlan().getFloors() )
+		for( AbstractFloor f : result.getBuildingPlan().getFloors() )
 			for( Room r : f )
 				try {
 					final java.lang.reflect.Field field = Room.class.getDeclaredField( "teleportAreas" );
