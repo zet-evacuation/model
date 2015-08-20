@@ -47,7 +47,7 @@ import java.util.List;
  */
 @XStreamAlias( "floor" )
 @XMLConverter( FloorConverter.class )
-public class Floor implements Serializable, Cloneable, AbstractFloor {
+public class Floor implements Serializable, Cloneable, FloorInterface, Named {
 	/** The name of the floor. */
 	@XStreamAsAttribute()
 	private String name;
@@ -203,13 +203,15 @@ public class Floor implements Serializable, Cloneable, AbstractFloor {
 		return height;
 	}
 
-	/**
-	 * Returns the name of the floor.
-	 * @return the name of the floor
-	 */
-	public final String getName() {
-		return name;
-	}
+    /**
+     * Returns the name of the floor.
+     *
+     * @return the name of the floor
+     */
+    @Override
+    public final String getName() {
+        return name;
+    }
 
 	/**
 	 * Returns the width of the {@code Floor}. That is the difference between the
@@ -271,10 +273,10 @@ public class Floor implements Serializable, Cloneable, AbstractFloor {
 	 * Renames the floor. Must be taken care off that the floor can only takes a
 	 * name that has not been given to another floor.
 	 * @param val the new name of the floor
-	 */
-	void setName( String val ) {
-		name = val;
-	}
+     */
+    void setName(String val) {
+        name = val;
+    }
 
 	/**
 	 * Returns the bounding box of this {@code Floor}. The bounding box
@@ -595,4 +597,9 @@ public class Floor implements Serializable, Cloneable, AbstractFloor {
 	public String summary() {
 		return summaryBuilder().toString();
 	}
+
+    @Override
+    public Rectangle getLocation() {
+        return new Rectangle(getxOffset(), getyOffset(), getWidth(), getHeight());
+    }
 }

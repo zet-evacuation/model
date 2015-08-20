@@ -26,7 +26,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * EvacuationArea is associated to exactly one {@link Room} at every time.
  */
 @XStreamAlias( "evacuationArea" )
-public class EvacuationArea extends SaveArea {
+public class EvacuationArea extends SaveArea implements Named {
 	/** The attractivity of this {@code EvacuationArea} */
 	private int attractivity;
  	@XStreamAsAttribute()

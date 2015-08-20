@@ -1,6 +1,5 @@
 package de.zet_evakuierung.model;
 
-import de.zet_evakuierung.model.PlanEdge;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import de.zet_evakuierung.model.DelayArea.DelayType;
@@ -10,7 +9,7 @@ import de.zet_evakuierung.model.DelayArea.DelayType;
  * @author Jan-Philipp Kappmeier
  */
 @XStreamAlias("teleportArea")
-public class TeleportArea extends AreaImpl {
+public class TeleportArea extends AreaImpl implements Named {
 	/** The evacuation area representing the exit that the persons this rooms should use. */
 	private EvacuationArea exit;
 	/** The evacuation area representing the exit that the persons this rooms should use. */

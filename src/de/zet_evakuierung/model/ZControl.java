@@ -13,6 +13,7 @@ import de.zet_evakuierung.model.exception.PolygonNotClosedException;
 import de.zet_evakuierung.model.exception.RoomIntersectException;
 import de.zet_evakuierung.model.exception.UnknownZModelError;
 import event.EventServer;
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -150,7 +151,7 @@ public class ZControl {
 		throw new AssertionError( "Unknown parameter type." );
 	}
 
-	public boolean deleteFloor( AbstractFloor currentFloor ) {
+	public boolean deleteFloor( FloorInterface currentFloor ) {
 		if( currentFloor instanceof DefaultEvacuationFloor )
 			return false;
 		getProject().getBuildingPlan().removeFloor( currentFloor );
@@ -203,43 +204,47 @@ public class ZControl {
 	 * @throws AssignmentException if an assignment area is to be created without any valid assignment
 	 * @throws IllegalArgumentException if object creation is already started or an invalid class was submitted
 	 */
-	public void createNewPolygon( Class<?> polygonClass, Object parent ) throws AssignmentException, IllegalArgumentException {
-		if( newPolygon != null )
-			throw new IllegalArgumentException( "Creation already started." );
+	   public void createNewPolygon(Class<?> polygonClass, Object parent) throws AssignmentException, IllegalArgumentException {
+        if (newPolygon != null) {
+            throw new IllegalArgumentException("Creation already started.");
+        }
 
-		if( polygonClass == Room.class )
-			newPolygon = new RoomImpl( (Floor)parent );
-		else if( polygonClass == AssignmentArea.class ) {
-			Assignment cur2 = getProject().getCurrentAssignment();
-			if( cur2 != null )
-				if( cur2.getAssignmentTypes().size() > 0 )
-					newPolygon = new AssignmentArea( (RoomImpl)parent, cur2.getAssignmentTypes().get( 0 ) );
-				else
-					throw new AssignmentException( AssignmentException.State.NoAssignmentCreated );
-			else
-				throw new AssignmentException( AssignmentException.State.NoAssignmentSelected );
-		} else if( polygonClass == Barrier.class )
-			newPolygon = new Barrier( (RoomImpl)parent );
-		else if( polygonClass == DelayArea.class )
-			newPolygon = new DelayArea( (RoomImpl)parent, DelayArea.DelayType.OBSTACLE, 0.7d );
-		else if( polygonClass == StairArea.class )
-			newPolygon = new StairArea( (RoomImpl)parent );
-		else if( polygonClass == EvacuationArea.class ) {
-			newPolygon = new EvacuationArea( (RoomImpl)parent );
-			int count = getProject().getBuildingPlan().getEvacuationAreasCount();
-			String name = ZLocalization.loc.getString( "ds.z.DefaultName.EvacuationArea" ) + " " + count;
-			((EvacuationArea)newPolygon).setName( name );
-		} else if( polygonClass == InaccessibleArea.class )
-			newPolygon = new InaccessibleArea( (RoomImpl)parent );
-		else if( polygonClass == SaveArea.class )
-			newPolygon = new SaveArea( (RoomImpl)parent );
-		else if( polygonClass == TeleportArea.class )
-			newPolygon = new TeleportArea( (RoomImpl)parent );
-		else
-			throw new IllegalArgumentException( "No valid plygon class given" );
+        if (polygonClass == Room.class) {
+            newPolygon = new RoomImpl((Floor) parent);
+        } else if (polygonClass == AssignmentArea.class) {
+            Assignment cur2 = getProject().getCurrentAssignment();
+            if (cur2 != null) {
+                if (cur2.getAssignmentTypes().size() > 0) {
+                    newPolygon = new AssignmentArea((RoomImpl) parent, cur2.getAssignmentTypes().get(0));
+                } else {
+                    throw new AssignmentException(AssignmentException.State.NoAssignmentCreated);
+                }
+            } else {
+                throw new AssignmentException(AssignmentException.State.NoAssignmentSelected);
+            }
+        } else if (polygonClass == Barrier.class) {
+            newPolygon = new Barrier((RoomImpl) parent);
+        } else if (polygonClass == DelayArea.class) {
+            newPolygon = new DelayArea((RoomImpl) parent, DelayArea.DelayType.OBSTACLE, 0.7d);
+        } else if (polygonClass == StairArea.class) {
+            newPolygon = new StairArea((RoomImpl) parent);
+        } else if (polygonClass == EvacuationArea.class) {
+            newPolygon = new EvacuationArea((RoomImpl) parent);
+            int count = getProject().getBuildingPlan().getEvacuationAreasCount();
+            String name = ZLocalization.loc.getString("ds.z.DefaultName.EvacuationArea") + " " + count;
+            ((EvacuationArea) newPolygon).setName(name);
+        } else if (polygonClass == InaccessibleArea.class) {
+            newPolygon = new InaccessibleArea((RoomImpl) parent);
+        } else if (polygonClass == SaveArea.class) {
+            newPolygon = new SaveArea((RoomImpl) parent);
+        } else if (polygonClass == TeleportArea.class) {
+            newPolygon = new TeleportArea((RoomImpl) parent);
+        } else {
+            throw new IllegalArgumentException("No valid plygon class given");
+        }
 
-		latestPolygon = newPolygon;
-	}
+        latestPolygon = newPolygon;
+    }
 
 	public boolean addPoints( List<PlanPoint> points ) {
 		if( newPolygon == null )
@@ -485,12 +490,22 @@ public class ZControl {
 		} while( !project.getBuildingPlan().addFloor( fc ) && number <= 99 );
 	}
 
-	public void moveFloorUp( int id ) {
+	public void moveFloorUp(FloorInterface floor ) {
+            int id = project.getBuildingPlan().getFloorID(floor);
+            if (id < project.getBuildingPlan().floorCount()-1) {
 		project.getBuildingPlan().moveFloorUp( id );
+            } else {
+                System.out.println("Could not move floor up!");
+            }
 	}
 
-	public void moveFloorDown( int id ) {
-		project.getBuildingPlan().moveFloorDown( id );
+	public void moveFloorDown( FloorInterface floor ) {
+            int id = project.getBuildingPlan().getFloorID(floor);
+            if(id > 1 ) {
+                project.getBuildingPlan().moveFloorDown(id);
+            } else {
+                System.out.println("Floor is bottom!");
+            }
 	}
 
 	public void deletePoint( PlanPolygon poly, PlanPoint currentPoint ) {
@@ -592,7 +607,7 @@ public class ZControl {
   }
 
   public void autoCorrectEdges() {
-    for( AbstractFloor floor : project.getBuildingPlan() ) {
+    for( FloorInterface floor : project.getBuildingPlan() ) {
       for( Room room : floor ) {
         boolean printed = false;
         for( RoomEdge ed : in( ((PlanPolygon<RoomEdge>)room.getPolygon()).edgeIterator() ) ) {
@@ -637,24 +652,28 @@ public class ZControl {
 		}
 	}
 
-	/**
-	 * Renames a floor if that is possible.
-	 * @param floor the floor that is renamed
-	 * @param name the new name of the floor
-	 * @return {@code true} if the floor could be renamed, {@code false} otherwise
-	 */
-	public boolean renameFloor( Floor floor, String name ) {
-		// try to find out if the name is already used
-		if( floor.getName().equals( name ) )
-			return true;
-		for( AbstractFloor f : project.getBuildingPlan() )
-			if( f.getName().equals( name ) )
-				return false;
-		floor.setName( name );
-		return true;
-	}
+    /**
+     * Renames a floor if that is possible.
+     *
+     * @param floor the floor that is renamed
+     * @param name the new name of the floor
+     * @return {@code true} if the floor could be renamed, {@code false} otherwise
+     */
+    public boolean renameFloor(FloorInterface floor, String name) {
+        // try to find out if the name is already used
+        if (floor.getName().equals(name)) {
+            return true;
+        }
+        for (FloorInterface f : project.getBuildingPlan()) {
+            if (f.getName().equals(name)) {
+                return false;
+            }
+        }
+        ((Floor) floor).setName(name);
+        return true;
+    }
 
-	/**
+    /**
 	 * Renames a room if that is possible.
 	 * @param room the room that is renamed
 	 * @param name the new name of the room
@@ -849,4 +868,17 @@ public class ZControl {
 		aa.replace( newPoints );
 		return aa;
 	}
+
+    public void setFloorSize(FloorInterface model, Rectangle floorSize) {
+        Floor f = (Floor) model;
+        f.setMinimumSize(floorSize.x, floorSize.y, floorSize.width, floorSize.height);
+    }
+
+    public void setDelaySpeedFactor(DelayArea model, double defaultSpeed) {
+        model.setSpeedFactor(defaultSpeed);
+    }
+
+    public void setDelayType(DelayArea model, DelayArea.DelayType type) {
+        model.setDelayType(type);
+    }
 }

@@ -37,7 +37,7 @@ import java.util.UUID;
 @XStreamAlias("assignmentType")
 @XMLConverter(AssignmentTypeConverter.class)
 @SuppressWarnings("serial")
-public class AssignmentType implements Serializable {
+public class AssignmentType implements Serializable, Named {
 	/** A name for the assignment type such as "Old People" or "Pedestrians". */
 	@XStreamAsAttribute()
 	private String name;

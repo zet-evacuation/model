@@ -296,67 +296,68 @@ public class RoomImpl extends PlanPolygon<RoomEdge> implements Cloneable, Compar
 		name = val;
 	}
 
-	/**
-	 * Adds a new area to the applicable area list.
-	 * @param area the area to be added
-	 * @throws IllegalArguementException if the area is already contained in the associated area list
-	 */
-	void addArea( Area area ) throws IllegalArgumentException {
-		if( area instanceof AssignmentArea ) {
-			if( assignmentAreas.contains( (AssignmentArea)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			} else {
-				assignmentAreas.add( (AssignmentArea) area );
-			}
-		}
-		if( area instanceof DelayArea ) {
-			if( delayAreas.contains( (DelayArea)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			} else {
-				delayAreas.add( (DelayArea) area );
-			}
-		}
-		if( area instanceof Barrier ) {
-			if( barriers.contains( (Barrier)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			} else {
-				barriers.add( (Barrier) area );
-			}
-		// Check also for evacuation barriers
-		} else if( area instanceof InaccessibleArea ) {
-			if( inaccessibleAreas.contains( (InaccessibleArea)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			}
-			// is _not_ contained because if it would be in inaccessibleAreas and the exception is already thrown
-			inaccessibleAreas.add( (InaccessibleArea) area );
-		}
-		if( area instanceof SaveArea ) {
-			if( saveAreas.contains( (SaveArea)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			} else {
-				saveAreas.add( (SaveArea) area );
-			}
-			// Check also for evacuation area
-			if( area instanceof EvacuationArea ) // is _not_ contained because if it would be in saveAreas and the exception is already thrown
-			{
-				evacuationAreas.add( (EvacuationArea) area );
-			}
-		}
-		if( area instanceof StairArea ) {
-			if( stairAreas.contains( (StairArea)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			} else {
-				stairAreas.add( (StairArea) area );
-			}
-		}
-		if( area instanceof TeleportArea ) {
-			if( teleportAreas.contains( (TeleportArea)area ) ) {
-				throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.Room.AlreadyContainsAreaException" ) );
-			}	else {
-				teleportAreas.add( (TeleportArea)area );
-			}
-		}
-	}
+    /**
+     * Adds a new area to the applicable area list.
+     *
+     * @param area the area to be added
+     * @throws IllegalArguementException if the area is already contained in the associated area list
+     */
+    void addArea(Area area) throws IllegalArgumentException {
+        if (area instanceof AssignmentArea) {
+            if (assignmentAreas.contains((AssignmentArea) area)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+            } else {
+                assignmentAreas.add((AssignmentArea) area);
+            }
+        }
+        if (area instanceof DelayArea) {
+            if (delayAreas.contains((DelayArea) area)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+            } else {
+                delayAreas.add((DelayArea) area);
+            }
+        }
+        if (area instanceof Barrier) {
+            if (barriers.contains((Barrier) area)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+            } else {
+                barriers.add((Barrier) area);
+            }
+            // Check also for evacuation barriers
+        } else if (area instanceof InaccessibleArea) {
+            if (inaccessibleAreas.contains((InaccessibleArea) area)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+            }
+            inaccessibleAreas.add((InaccessibleArea) area);
+        }
+        if (area instanceof SaveArea) {
+            if (area instanceof EvacuationArea) {
+                if (evacuationAreas.contains((EvacuationArea) area)) {
+                    throw new IllegalArgumentException("Evacuation area already contained in room!");
+                }
+                evacuationAreas.add((EvacuationArea) area);
+            } else {
+                if (saveAreas.contains((SaveArea) area)) {
+                    throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+                }
+                saveAreas.add((SaveArea) area);
+            }
+        }
+        if (area instanceof StairArea) {
+            if (stairAreas.contains((StairArea) area)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+            } else {
+                stairAreas.add((StairArea) area);
+            }
+        }
+        if (area instanceof TeleportArea) {
+            if (teleportAreas.contains((TeleportArea) area)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.Room.AlreadyContainsAreaException"));
+            } else {
+                teleportAreas.add((TeleportArea) area);
+            }
+        }
+    }
 
 	/**
 	 * Checks, whether this is a valid room. This is true, if all his edges define a closed area

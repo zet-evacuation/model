@@ -114,6 +114,7 @@ public class ProjectLoader {
 		//all class names. These are loaded and their annotaions are examined.
 		// Load "ds" because the JARClassLoader won't load "" (the FileClassLoader does)
 		URL pack = Project.class.getClassLoader().getResource( "ds" );
+                System.out.println(pack);
 		String url = pack.toExternalForm();
 		// The artificially delete the "ds" again
 		url = url.substring( 0, url.lastIndexOf( '/' ) + 1 );

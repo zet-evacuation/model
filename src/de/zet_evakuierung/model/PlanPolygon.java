@@ -2346,104 +2346,109 @@ public class PlanPolygon<T extends PlanEdge> /*implements Iterable<T>*/ {
 		}
 	}
 
-	/** An iterator to iterate over a PlanPolygon's PlanPoints. */
-	private class PointIterator implements ListIterator<PlanPoint> {
-		private PlanPoint start;
-		private PlanPoint end;
-		private PlanPoint cursor;
-		private boolean beyondEnd;
-		private boolean beforeStart;
+    /**
+     * An iterator to iterate over a PlanPolygon's PlanPoints.
+     */
+    private class PointIterator implements ListIterator<PlanPoint> {
 
-		/** Iterates over the given part of the polygon.
-		 * @param start The starting point of the iterator.
-		 * @param end The end point of the iterator.
-		 * @param startAtEnd Whether the iteration should start at the
-		 * given end point (true) or at the start point (false). */
-		public PointIterator( PlanPoint start, PlanPoint end, boolean startAtEnd ) {
-			this.start = start;
-			this.end = end;
-			this.cursor = startAtEnd ? end : start;
+        private PlanPoint start;
+        private PlanPoint end;
+        private PlanPoint cursor;
+        private boolean beyondEnd;
+        private boolean beforeStart;
 
-			beforeStart = !startAtEnd;
-			beyondEnd = startAtEnd;
-		}
+        /**
+         * Iterates over the given part of the polygon.
+         *
+         * @param start The starting point of the iterator.
+         * @param end The end point of the iterator.
+         * @param startAtEnd Whether the iteration should start at the given end point (true) or at the start point
+         * (false).
+         */
+        public PointIterator(PlanPoint start, PlanPoint end, boolean startAtEnd) {
+            this.start = start;
+            this.end = end;
+            this.cursor = startAtEnd ? end : start;
 
-		@Override
-		public boolean hasNext() {
-			return cursor != null &&
-							(beforeStart || (cursor.getNextEdge() != null &&
-							// If the polygon is closed, we don't return the "end" point a second time (end == start)
-							((closed && (start == end)) ? cursor.getNextEdge().getTarget() != end : !beyondEnd)));
-		}
+            beforeStart = !startAtEnd;
+            beyondEnd = startAtEnd;
+        }
 
-		@Override
-		public PlanPoint next() {
-			if( hasNext() ) {
-				if( beforeStart )
-					beforeStart = false;
-				else {
-					cursor = cursor.getNextEdge().getTarget();
-					if( cursor == end )
-						beyondEnd = true;
-				}
+        @Override
+        public boolean hasNext() {
+            return cursor != null
+                    && (beforeStart || (cursor.getNextEdge() != null
+                    && // If the polygon is closed, we don't return the "end" point a second time (end == start)
+                    ((closed && (start.equals(end))) ? !cursor.getNextEdge().getTarget().equals(end) : !beyondEnd)));
+        }
 
-				return cursor;
-			} else
-				return null;
-		}
+        @Override
+        public PlanPoint next() {
+            if (hasNext()) {
+                if (beforeStart) {
+                    beforeStart = false;
+                } else {
+                    cursor = cursor.getNextEdge().getTarget();
+                    if (cursor.equals(end)) {
+                        beyondEnd = true;
+                    }
+                }
 
-		@Override
-		public boolean hasPrevious() {
-			return cursor != null &&
-							(beyondEnd || (cursor.getPreviousEdge() != null &&
-							// If the polygon is closed and start==end, we don't return the "start" point a second time
-							((closed && (start == end)) ? cursor.getPreviousEdge().getSource() != start : !beforeStart)));
-		}
+                return cursor;
+            } else {
+                return null;
+            }
+        }
 
-		@Override
-		public PlanPoint previous() {
-			if( hasPrevious() ) {
-				if( beyondEnd )
-					beyondEnd = false;
-				else {
-					cursor = cursor.getPreviousEdge().getOther( cursor );
-					if( cursor == start )
-						beforeStart = true;
-				}
+        @Override
+        public boolean hasPrevious() {
+            return cursor != null
+                    && (beyondEnd || (cursor.getPreviousEdge() != null
+                    && // If the polygon is closed and start==end, we don't return the "start" point a second time
+                    ((closed && (start.equals(end))) ? !cursor.getPreviousEdge().getSource().equals(start) : !beforeStart)));
+        }
 
-				return cursor;
-			} else
-				return null;
-		}
+        @Override
+        public PlanPoint previous() {
+            if (hasPrevious()) {
+                if (beyondEnd) {
+                    beyondEnd = false;
+                } else {
+                    cursor = cursor.getPreviousEdge().getOther(cursor);
+                    if (cursor.equals(start)) {
+                        beforeStart = true;
+                    }
+                }
 
-		@Override
-		public int nextIndex() {
-			throw new UnsupportedOperationException(
-							"Indexes are not supported within PlanPolygon iterators!" );
-		}
+                return cursor;
+            } else {
+                return null;
+            }
+        }
 
-		@Override
-		public int previousIndex() {
-			throw new UnsupportedOperationException(
-							"Indexes are not supported within PlanPolygon iterators!" );
-		}
+        @Override
+        public int nextIndex() {
+            throw new UnsupportedOperationException("Indexes are not supported within PlanPolygon iterators!");
+        }
 
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException(
-							"Use 'Edge.delete()' to delete Edges from PlanPolygons!" );
-		}
+        @Override
+        public int previousIndex() {
+            throw new UnsupportedOperationException("Indexes are not supported within PlanPolygon iterators!");
+        }
 
-		@Override
-		public void set( PlanPoint e ) {
-			throw new UnsupportedOperationException(
-							"Use 'new Edge()' / 'edge.delete()' to modify the edge list!" );
-		}
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Use 'Edge.delete()' to delete Edges from PlanPolygons!");
+        }
 
-		@Override
-		public void add( PlanPoint e ) {
-			throw new UnsupportedOperationException(
-							"Use 'new Edge()' to create new Edges!" );
-		}
-	}
+        @Override
+        public void set(PlanPoint e) {
+            throw new UnsupportedOperationException("Use 'new Edge()' / 'edge.delete()' to modify the edge list!");
+        }
+
+        @Override
+        public void add(PlanPoint e) {
+            throw new UnsupportedOperationException("Use 'new Edge()' to create new Edges!");
+        }
+    }
 }

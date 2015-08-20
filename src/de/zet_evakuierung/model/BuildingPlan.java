@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -42,7 +43,7 @@ import java.util.Random;
  */
 @XStreamAlias("buildingPlan")
 @XMLConverter(BuildingPlanConverter.class)
-public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
+public class BuildingPlan implements Serializable, Iterable<Floor> {
 	/** A list of all floors of the plan. */
 	@XStreamImplicit()
 	private ArrayList<Floor> floors;
@@ -77,7 +78,7 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 	 * @param floor the selected floor whose index should be computed
 	 * @return the id of the selected floor
 	 */
-	public int getFloorID( AbstractFloor floor ) {
+	public int getFloorID( FloorInterface floor ) {
 		return floors.indexOf( floor );
 	}
 
@@ -163,7 +164,7 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 	 * Returns view of all {@code Floors} that this {@code BuildingPlan} contains.
 	 * @return the list of {@link Floor} objects (including the default floor)
 	 */
-	public List<AbstractFloor> getFloors() {
+	public List<Floor> getFloors() {
 		return Collections.unmodifiableList( floors );
 	}
 
@@ -177,7 +178,7 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 
 	/** @return If the plan has any rooms at all, e.g. if it is empty or not. */
 	public boolean isEmpty() {
-		for( AbstractFloor f : getFloors() )
+		for( FloorInterface f : getFloors() )
 			if( f.getRooms().size() > 0 )
 				return false;
 		return true;
@@ -186,7 +187,7 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 	/** @return If the plan has any evacuation areas at all. */
 	public boolean hasEvacuationAreas() {
 		boolean hasEvac = false;
-		for( AbstractFloor f : getFloors() ) {
+		for( FloorInterface f : getFloors() ) {
 			for( Room r : f.getRooms() )
 				if( r.getEvacuationAreas().size() > 0 ) {
 					hasEvac = true;
@@ -207,7 +208,7 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 	 * @param floor the floor to be removed
 	 * @throws java.lang.IllegalArgumentException if the default floor should be removed.
 	 */
-	public void removeFloor( AbstractFloor floor ) throws java.lang.IllegalArgumentException {
+	public void removeFloor( FloorInterface floor ) throws java.lang.IllegalArgumentException {
     if( !(floor instanceof Floor ) ) {
       throw new IllegalStateException("Illegal floor!");
     }
@@ -377,7 +378,7 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 	 * @return an iterator over the floors of this building plan.
 	 */
 	@Override
-	public Iterator<AbstractFloor> iterator() {
+        public Iterator<Floor> iterator() {
 		return getFloors().iterator();
 	}
 
@@ -403,4 +404,15 @@ public class BuildingPlan implements Serializable, Iterable<AbstractFloor> {
 
 		return summaryBuilder().toString();
 	}
+
+    public List<EvacuationArea> getEvacuationAreas() {
+        LinkedList<EvacuationArea> evacuationAreas = new LinkedList<>();
+        for (Floor f : this) {
+            for (Room r : f) {
+                evacuationAreas.addAll(r.getEvacuationAreas());
+            }
+        }
+        return evacuationAreas;
+    }
+
 }

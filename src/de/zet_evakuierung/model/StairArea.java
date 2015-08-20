@@ -230,10 +230,10 @@ public class StairArea extends AreaImpl {
 			while( itP.hasNext() ) {
 				PlanPoint i = itP.next();
 				// First check for invalid points then accept eventually
-				if( i == upperLevel[0] || i == upperLevel[1] )
+				if( i.equals(upperLevel[0]) || i.equals(upperLevel[1]) )
 					throw new StairAreaBoundaryException( ZLocalization.loc.getString(
 									"ds.z.StairArea.LevelProgressionsOverlap" ), this, this.getEdge( lowerLevelStart, lowerLevelEnd ) );
-				else if( i == lowerLevelEnd ) {
+				else if( i.equals(lowerLevelEnd) ) {
 					foundEnd = true;
 					break;
 				}
