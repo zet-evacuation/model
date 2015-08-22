@@ -173,26 +173,29 @@ public class Floor implements Serializable, Cloneable, FloorInterface, Named {
 		}
 	}
 
-	/**
-	 * Tests, if this floor equals the given floor f. Two floors are equal, if
-	 * they have the same name.
-	 * @param p the floor to be tested for equality
-	 * @return true if the two floors are equal
-	 */
-	public boolean equals( Floor p ) {
-		return p.name.equals( name );
-	}
-
-	/**
-	 * Tests, if this floor equals the given object. First assures that the object is an instance of the floor class.
-	 * Returns false if the object is not a floor. Two floors are equal, if they have the same name.
-	 * @param o the object that is to be tested for equality
-	 * @return
-	 */
-	@Override
-	public boolean equals( Object o ) {
-		return o instanceof Floor ? this.equals( (Floor)o) : false;
-	}
+        // Floors should in general not be equal if they just have the same name!
+        // The property that each floor can only occur once by a given name should be maintained
+        // by other means that equals method.
+//	/**
+//	 * Tests, if this floor equals the given floor f. Two floors are equal, if
+//	 * they have the same name.
+//	 * @param p the floor to be tested for equality
+//	 * @return true if the two floors are equal
+//	 */
+//	public boolean equals( Floor p ) {
+//		return p.name.equals( name );
+//	}
+//
+//	/**
+//	 * Tests, if this floor equals the given object. First assures that the object is an instance of the floor class.
+//	 * Returns false if the object is not a floor. Two floors are equal, if they have the same name.
+//	 * @param o the object that is to be tested for equality
+//	 * @return
+//	 */
+//	@Override
+//	public boolean equals( Object o ) {
+//		return o instanceof Floor ? this.equals( (Floor)o) : false;
+//	}
 
 	/**
 	 * Returns the height of the {@code Floor}. That is the difference between the
