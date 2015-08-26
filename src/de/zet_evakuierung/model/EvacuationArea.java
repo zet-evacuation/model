@@ -102,7 +102,7 @@ public class EvacuationArea extends SaveArea implements Named {
 	 * @throws java.lang.IllegalArgumentException if attractivity is less or equal
 	 * to zero
 	 */
-	final void setAttractivity( int attractivity ) throws java.lang.IllegalArgumentException {
+	public final void setAttractivity( int attractivity ) throws java.lang.IllegalArgumentException {
 		if( attractivity <=0 )
 			throw new java.lang.IllegalArgumentException( ZLocalization.loc.getString( "ds.z.EvacuationArea.AttractivityLessThanZeroException" ) );
 		this.attractivity = attractivity;

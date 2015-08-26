@@ -881,4 +881,9 @@ public class ZControl {
     public void setDelayType(DelayArea model, DelayArea.DelayType type) {
         model.setDelayType(type);
     }
+
+    public void setRoomName(Room room, String name) {
+        RoomImpl r = (RoomImpl)room;
+        r.setName(name);
+    }
 }

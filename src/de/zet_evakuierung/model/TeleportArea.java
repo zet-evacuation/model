@@ -2,7 +2,6 @@ package de.zet_evakuierung.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import de.zet_evakuierung.model.DelayArea.DelayType;
 
 /**
  *
@@ -20,13 +19,12 @@ public class TeleportArea extends AreaImpl implements Named {
 
 
 	/**
-	 * Constructs a new {@code DelayArea} with the default {@code speedFactor}
-	 * provided by the specified {@link DelayType}.
+	 * Constructs a new {@code TeleportArea}.
 	 *
 	 * @param room to which the area belongs
 	 */
-	TeleportArea( RoomImpl room ) {
-		super( room, AreaType.Stair );
+	public TeleportArea( RoomImpl room ) {
+		super( room, AreaType.Teleport );
 	}
 
 	/**
