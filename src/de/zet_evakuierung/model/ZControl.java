@@ -863,8 +863,8 @@ public class ZControl {
 		RoomImpl.connectToWithTeleportEdge( firstEdge, secondEdge );
 	}
 
-	public AssignmentArea createNewArea( PlanPolygon myPolygon, AssignmentType myType, ArrayList<PlanPoint> newPoints ) {
-		AssignmentArea aa = new AssignmentArea( (RoomImpl) myPolygon, myType );
+	public AssignmentArea createNewArea( Room room, AssignmentType myType, ArrayList<PlanPoint> newPoints ) {
+		AssignmentArea aa = new AssignmentArea( (RoomImpl)room, myType );
 		aa.replace( newPoints );
 		return aa;
 	}

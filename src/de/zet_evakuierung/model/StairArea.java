@@ -281,6 +281,21 @@ public class StairArea extends AreaImpl {
 		upperLevel[0] = upperLevelStart;
 		upperLevel[1] = upperLevelEnd;
 	}
+        
+    public final boolean canBeUsed(PlanPoint upperLevelStart, PlanPoint upperLevelEnd) {
+        if (upperLevelStart != null && upperLevelEnd != null) {
+            ListIterator<PlanPoint> itP = pointIterator(upperLevelStart, upperLevelEnd, false);
+            while (itP.hasNext()) {
+                PlanPoint i = itP.next();
+                if (i == lowerLevel[0] || i == lowerLevel[1]) {
+                    return false;
+                } else if (i == upperLevelEnd) {
+                    break;
+                }
+            }
+        }
+        return true;
+    }
 
 	/**
 	 * {@inheritDoc }
