@@ -1187,13 +1187,27 @@ public class PlanPolygon<T extends PlanEdge> /*implements Iterable<T>*/ {
 	 * @return the {@link PlanEdge} instance contained in the polygon
 	 */
 	public T getEdge( PlanPoint p1, PlanPoint p2 ) throws IllegalArgumentException {
-		if( p1.equals( p2 ) )
-			throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.PlanPolygon.EqualPointsException" ) );
-		for( T e : in(this.edgeIterator()) )
-			if( e.fits( p1 ) && e.fits( p2 ) )
-				return e;
-		throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.PlanPolygon.EdgeNotFoundException" ) );
+            if (p1.equals(p2)) {
+                throw new IllegalArgumentException(ZLocalization.loc.getString("ds.z.PlanPolygon.EqualPointsException"));
+            }
+            for (T e : in(this.edgeIterator())) {
+                if (e.fits(p1) && e.fits(p2)) {
+                    return e;
+                }
+            }
+            throw new IllegalArgumentException( ZLocalization.loc.getString( "ds.z.PlanPolygon.EdgeNotFoundException" ) );
 	}
+        
+        public boolean isContained( T edge ) {
+            PlanPoint p1 = edge.getSource();
+            PlanPoint p2 = edge.getTarget();
+            for (T e : in(this.edgeIterator())) {
+                if (e.fits(p1) && e.fits(p2)) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
 	/**
 	 * Tries to find an edge of the room, that contains the given point.

@@ -886,4 +886,24 @@ public class ZControl {
         RoomImpl r = (RoomImpl)room;
         r.setName(name);
     }
+
+    public boolean makePassable(RoomEdge edge) {
+        Room room = edge.getRoom();
+        RoomEdge partner = null;
+        for (Room r : room.getAssociatedFloor().getRooms()) {
+            if (r != room) {
+                PlanPolygon<RoomEdge> p = (PlanPolygon<RoomEdge>) r.getPolygon();
+                if (p.isContained(edge)) {
+                    partner = p.getEdge(edge);
+                    break; // Break when successful
+                }
+            }
+        }
+        if (partner != null) {
+            edge.setLinkTarget(partner);
+            partner.setLinkTarget(edge);
+            return true;
+        }
+        return false;
+    }
 }
