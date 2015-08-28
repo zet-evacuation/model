@@ -169,5 +169,21 @@ public class CompleteProjectTest {
         s.setLowerLevel(pe.getSource(), pe.getTarget());
         pe = s.getEdge(upperLevelStart, upperLevelEnd);
         s.setUpperLevel(pe.getSource(), pe.getTarget());
+
+        // create another room that is next to the last one to create teleport areas
+        control.createNewPolygon(Room.class, floor1);
+        control.addPoint(new PlanPoint(1000 + 0000, 3000));
+        control.addPoint(new PlanPoint(1200 + 0000, 2800));
+        control.addPoint(new PlanPoint(1800 + 1000, 2800));
+        control.addPoint(new PlanPoint(1800 + 1000, 4000));
+        control.addPoint(new PlanPoint(1000 + 0000, 4000));
+        control.addPoint(new PlanPoint(1000 + 0000, 3000));
+        assert floor1.getRooms().size() == 4;
+        Room room4 = (Room) control.latestPolygon();
+
+        RoomEdge e = room4.getPolygon().getEdge(new PlanPoint(1000, 4000), new PlanPoint(1000, 3000));
+        control.makePassable(e);
+        assert e.isPassable();
+        assert e.getLinkTarget().getRoom() == room3;
     }
 }
