@@ -301,7 +301,7 @@ public class ZControl {
 			EventServer.getInstance().dispatchEvent( new ZModelRoomEvent( new LinkedList<Room>(){{ add((Room)newPolygon); }} ) );
 	}
 
-	public PlanPolygon closePolygon() {
+	public PlanPolygon<?> closePolygon() {
 		if( newPolygon.isClosed() )
 			throw new IllegalStateException( "Polygon closed." );
 

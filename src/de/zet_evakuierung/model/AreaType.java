@@ -1,39 +1,36 @@
-
 package de.zet_evakuierung.model;
 
 import org.zetool.common.localization.LocalizationManager;
 
 /**
  * An enumeration of all implemented areas in the z model.
+ *
  * @author Jan-Philipp Kappmeier
  */
-public abstract class AreaType {
+public enum AreaType {
 
-  public final static AreaType Assignment = new AreaType( "ds.z.AreaType.AssignmentArea" ) {};
-	public final static AreaType Barrier = new AreaType( "ds.z.AreaType.Barrier" ) {};
-	public final static AreaType Delay = new AreaType( "ds.z.AreaType.DelayArea" ) {};
-	public final static AreaType Inaccessible = new AreaType( "ds.z.AreaType.InaccessibleArea" ) {};
-	public final static AreaType Evacuation = new AreaType( "ds.z.AreaType.EvacuationArea" ) {};
-	public final static AreaType Save = new AreaType( "ds.z.AreaType.SaveArea" ) {};
-	public final static AreaType Stair = new AreaType( "ds.z.AreaType.StairArea" ) {};
-	public final static AreaType Teleport = new AreaType( "ds.z.AreaType.TeleportArea" ) {};
+    Assignment("ds.z.AreaType.AssignmentArea"),
+    Barrier("ds.z.AreaType.Barrier"),
+    Delay("ds.z.AreaType.DelayArea"),
+    Inaccessible("ds.z.AreaType.InaccessibleArea"),
+    Evacuation("ds.z.AreaType.EvacuationArea"),
+    Save("ds.z.AreaType.SaveArea"),
+    Stair("ds.z.AreaType.StairArea"),
+    Teleport("ds.z.AreaType.TeleportArea");
 
-	/** The key needed for the localization class to get the area type name. */
-	private String key;
+    /** The key needed for the localization class to get the area type name. */
+    public final String localizationKey;
 
-	private AreaType( String key ) {
-		this.key = key;
-	}
+    private AreaType(String key) {
+        this.localizationKey = key;
+    }
 
-	/**
-	 * Returns a (localized) name for the area type.
-	 * @return a name for the area type
-	 */
-	public String getTypeString() {
-		return LocalizationManager.getManager().getLocalization( ZLocalization.ZET_LOCALIZATION ).getString( key );
-	}
-
-  public String name() {
-    return getTypeString();
-  }
+    /**
+     * Returns a (localized) name for the area type.
+     *
+     * @return a name for the area type
+     */
+    public String getTypeString() {
+        return LocalizationManager.getManager().getLocalization(ZLocalization.ZET_LOCALIZATION).getString(localizationKey);
+    }
 }
