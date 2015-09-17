@@ -36,7 +36,7 @@
             <reference>
                 <foreign-project>zetool-opengl</foreign-project>
                 <artifact-type>jar</artifact-type>
-                <script>build.xml</script>
+                <script>nbbuild.xml</script>
                 <target>jar</target>
                 <clean-target>clean</clean-target>
                 <id>jar</id>
