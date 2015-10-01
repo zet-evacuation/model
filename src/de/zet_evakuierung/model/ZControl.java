@@ -491,18 +491,16 @@ public class ZControl {
 	}
 
 	public void moveFloorUp(FloorInterface floor ) {
-            int id = project.getBuildingPlan().getFloorID(floor);
-            if (id < project.getBuildingPlan().floorCount()-1) {
-		project.getBuildingPlan().moveFloorUp( id );
+            if (project.getBuildingPlan().canMoveDown(floor)) {
+		project.getBuildingPlan().moveFloorUp( floor );
             } else {
                 System.out.println("Could not move floor up!");
             }
 	}
 
 	public void moveFloorDown( FloorInterface floor ) {
-            int id = project.getBuildingPlan().getFloorID(floor);
-            if(id > 1 ) {
-                project.getBuildingPlan().moveFloorDown(id);
+            if(project.getBuildingPlan().canMoveDown(floor) ) {
+                project.getBuildingPlan().moveFloorDown(floor);
             } else {
                 System.out.println("Floor is bottom!");
             }

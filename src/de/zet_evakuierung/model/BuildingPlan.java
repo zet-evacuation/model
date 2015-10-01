@@ -114,11 +114,12 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	/**
 	 * Moves the given floor one position further towards the beginning of the floor list. Only changes
 	 * the order of the floors.
-	 * @param level the index of the floor to move
+	 * @param floor the floor to move
 	 * @throws IllegalArgumentException If the given floor is not in the list or if you try to move the
 	 * default evacuation floor
 	 */
-	public void moveFloorUp( int level ) {
+	public void moveFloorUp( FloorInterface floor ) {
+    int level = getFloorID(floor);            
     if( level == 0 ) {
       throw new IllegalArgumentException( "You may not move the default evacuation floor." );
     } else if( level < 0 ) {
@@ -135,11 +136,12 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
 	/**
 	 * Moves the given floor one position further towards the end of the floor list. Only changes
 	 * the order of the floors.
-	 * @param level the index of the floor to move
+	 * @param floor the floor to move
 	 * @throws IllegalArgumentException If the given floor is not in the list or if you try to move the
 	 * default evacuation floor
 	 */
-	public void moveFloorDown( int level ) {
+	public void moveFloorDown( FloorInterface floor ) {
+            int level = getFloorID(floor);
 		if( level < 0 ) {
 			throw new IllegalArgumentException( "There is no floor with negative id." );      
     } else if( level <= 1 ) {
@@ -413,6 +415,16 @@ public class BuildingPlan implements Serializable, Iterable<Floor> {
             }
         }
         return evacuationAreas;
+    }
+
+    public boolean canMoveUp(FloorInterface floor) {
+        int id = getFloorID(floor);
+        return !(floor instanceof DefaultEvacuationFloor) && id < floorCount() - 1;
+    }
+    
+    public boolean canMoveDown(FloorInterface floor) {
+            int id = getFloorID(floor);
+            return !(floor instanceof DefaultEvacuationFloor) && id > 1;
     }
 
 }
