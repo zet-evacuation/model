@@ -28,7 +28,7 @@ public class Person {
 	private PlanPoint position;
 	/** The room containing the person. */
 	private Room room;
-	/** Unique ID of the assignment type this person is in */
+	/** Unique ID of the assignment type this person is in. */
 	private UUID uid;
 	/** The distribution of the persons' parameter "diameter". */
 	private double diameter;
