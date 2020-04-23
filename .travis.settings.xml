@@ -24,7 +24,7 @@
                 <repository>
                     <id>github</id>
                     <name>GitHub zetool common Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/zetool/rndutils</url>
+                    <url>https://maven.pkg.github.com/zet-evacuation/model</url>
                 </repository>
             </repositories>
         </profile>
@@ -33,7 +33,7 @@
     <servers>
         <server>
             <id>github</id>
-            <username>zetool-bot</username>
+            <username>zet-bot</username>
             <password>${env.GH_PACKAGE_ACCESS}</password>
         </server>
     </servers>
