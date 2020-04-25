@@ -5,11 +5,15 @@
 name: Maven Release
 
 on:
-  push:
+  pull_request:
+    branches:
+    - master
+    types: [closed]
 
 jobs:
   release:
     name: Maven Release
+    if: github.event.pull_request.merged == true
 
     runs-on: ubuntu-latest
 
@@ -38,3 +42,22 @@ jobs:
       uses: GabrielBB/xvfb-action@v1.0
       with:
         run: mvn -B package --file pom.xml
+    - name: Copy settings for release
+      run: cp ~/.m2/settings.xml .
+    - name: Publish to GitHub Packages
+      uses: kappmeier/github-actions-maven-release@master
+      with:
+        release-branch-name: "master"
+
+        gpg-enabled: "true"
+        gpg-key-id: ${{ secrets.GH_GPG_KEY_ID }}
+        gpg-key: ${{ secrets. GH_GPG_KEY }}
+
+        settings-file: "./settings.xml"
+
+        maven-args: "-X -Dmaven.javadoc.skip=true -DskipTests"
+
+        git-release-bot-name: "zet-bot"
+        git-release-bot-email: "github@zet-evakuierung.de"
+
+        access-token: ${{ secrets.GH_RELEASE_TOKEN }}
