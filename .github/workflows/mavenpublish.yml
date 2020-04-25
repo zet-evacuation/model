@@ -28,9 +28,13 @@ jobs:
       uses: whelk-io/maven-settings-xml-action@v4
       with:
         repositories: '[
-        { "id": "github", "name": "GitHub zetool Apache Maven Packages", "url": "https://maven.pkg.github.com/zet-evacuation/model" }
+        { "id": "github-zetool", "name": "GitHub zetool Apache Maven Packages", "url": "https://maven.pkg.github.com/zetool/common" },
+        { "id": "github-zet", "name": "GitHub zet Apache Maven Packages", "url": "https://maven.pkg.github.com/zet-evacuation/model" }
         ]'
-        servers: '[{ "id": "github", "username": "zetool-bot", "password": "${GITHUB_TOKEN}" }]'
+        servers: '[
+        { "id": "github-zetool", "username": "zet-bot", "password": "${GITHUB_TOKEN}" },
+        { "id": "github-zet", "username": "zet-bot", "password": "${GITHUB_TOKEN}" }
+        ]'
     - name: Build with Maven
       uses: GabrielBB/xvfb-action@v1.0
       with:

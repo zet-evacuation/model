@@ -22,8 +22,13 @@
                     </snapshots>
                 </repository>
                 <repository>
-                    <id>github</id>
-                    <name>GitHub zetool common Apache Maven Packages</name>
+                    <id>github-zetool</id>
+                    <name>GitHub zetool Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/zetool/common</url>
+                </repository>
+                <repository>
+                    <id>github-zet</id>
+                    <name>GitHub zet model Apache Maven Packages</name>
                     <url>https://maven.pkg.github.com/zet-evacuation/model</url>
                 </repository>
             </repositories>
@@ -32,7 +37,12 @@
 
     <servers>
         <server>
-            <id>github</id>
+            <id>github-zetool</id>
+            <username>zet-bot</username>
+            <password>${env.GH_PACKAGE_ACCESS}</password>
+        </server>
+        <server>
+            <id>github-zet</id>
             <username>zet-bot</username>
             <password>${env.GH_PACKAGE_ACCESS}</password>
         </server>
