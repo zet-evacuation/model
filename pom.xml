@@ -21,7 +21,7 @@
 
     <groupId>de.zet-evakuierung</groupId>
     <artifactId>model</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <name>zet-model</name>
     <url>https://zetool.org</url>
 
@@ -157,6 +157,6 @@
     <scm>
         <connection>scm:git:https://github.com/zet-evacuation/model</connection>
         <url>https://github.com/zet-evacuation/model.git</url>
-        <tag>model-0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 </project>
