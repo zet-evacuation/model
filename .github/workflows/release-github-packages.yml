@@ -2,7 +2,7 @@
 # It uses Maven release to release the process including deploy.
 # Deployment is done to GitHub Package registry.
 
-name: Maven Release
+name: Release GitHub Packages
 
 on:
   pull_request:
