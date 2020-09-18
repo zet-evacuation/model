@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: maven-settings-xml-action
+    - name: Define custom repositories
       uses: whelk-io/maven-settings-xml-action@v4
       with:
         repositories: '[
