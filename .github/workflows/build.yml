@@ -37,5 +37,4 @@ jobs:
       with:
         run: mvn -B test --file pom.xml
     - name: Build with Maven
-      with:
-        run: mvn -B package -DskipTests --file pom.xml
+      run: mvn -B package -DskipTests --file pom.xml
