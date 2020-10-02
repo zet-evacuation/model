@@ -1,10 +1,13 @@
-# model
+# zet model
 
 [![License: GPL v2](https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue.svg)][GPL 2.0 license]
+[![Build Status](https://travis-ci.org/zet-evacuation/model.svg?branch=master)](https://travis-ci.org/zet-evacuation/model)
+[![codecov](https://codecov.io/gh/zet-evacuation/model/branch/master/graph/badge.svg)](https://codecov.io/gh/zet-evacuation/model)
 
 The evacuation model.
 
-Allows to use the zet evacuation model (and files describing a project) without including the graphical user interface and the algorithmic parts of the evacuation simulation/evacuation.
+Models scenarios of building evacuation, including the static geometry, dynamic assignment, and random properties of
+evacuees. Basis for use in evacuation simulation and optimization.
 
 ## License
 
